@@ -1,0 +1,5 @@
+Jan 10 12:01:22 server sshd[1234]: Failed password for root from 192.168.1.10
+Jan 10 12:01:25 server sshd[1234]: Failed password for root from 192.168.1.10
+Jan 10 12:01:27 server sshd[1234]: Failed password for root from 192.168.1.10
+Jan 10 12:01:30 server sshd[1234]: Failed password for root from 192.168.1.10
+Jan 10 12:02:10 server sshd[1234]: Accepted password for user from 10.0.0.5
