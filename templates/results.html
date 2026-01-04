@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results</title>
+</head>
+<body>
+    <h2>Security Alerts</h2>
+
+    {% if alerts %}
+        <ul>
+        {% for alert in alerts %}
+            <li>
+                <b>IP:</b> {{ alert.ip }} |
+                <b>User:</b> {{ alert.user }} |
+                <b>Attempts:</b> {{ alert.failed_attempts }} |
+                <b>Severity:</b> {{ alert.severity }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No suspicious activity detected.</p>
+    {% endif %}
+
+    <a href="/">Analyze another log</a>
+</body>
+</html>

@@ -1,30 +1,24 @@
-import json
+from flask import Flask, render_template, request
 from analyzer import analyze_log
+import os
 
-LOG_FILE = "sample_logs/auth.log"
-REPORT_FILE = "reports/alert_report.json"
+app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-def main():
-    alerts = analyze_log(LOG_FILE)
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        file = request.files["logfile"]
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(file_path)
 
-    report = {
-        "summary": {
-            "total_alerts": len(alerts),
-            "status": "ALERT" if alerts else "OK"
-        },
-        "alerts": alerts
-    }
+        alerts = analyze_log(file_path)
+        return render_template("results.html", alerts=alerts)
 
-    with open(REPORT_FILE, "w") as f:
-        json.dump(report, f, indent=4)
-
-    if alerts:
-        print("🚨 Suspicious activity detected")
-        print(f"📄 Report saved to {REPORT_FILE}")
-    else:
-        print("✅ No threats detected")
+    return render_template("index.html")
 
 if __name__ == "__main__":
-    main()
+    app.run(host="0.0.0.0", port=10000)
 
 
