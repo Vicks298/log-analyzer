@@ -1,26 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Analysis Results</title>
+    <title>SOC Analysis Results</title>
 </head>
 <body>
-    <h2>Security Alerts</h2>
 
-    {% if alerts %}
-        <ul>
-        {% for alert in alerts %}
-            <li>
-                <b>IP:</b> {{ alert.ip }} |
-                <b>User:</b> {{ alert.user }} |
-                <b>Attempts:</b> {{ alert.failed_attempts }} |
-                <b>Severity:</b> {{ alert.severity }}
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No suspicious activity detected.</p>
-    {% endif %}
+<h2>Security Alerts</h2>
 
-    <a href="/">Analyze another log</a>
+{% for alert in alerts %}
+<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+    <p><strong>IP:</strong> {{ alert.ip }}</p>
+    <p><strong>User:</strong> {{ alert.user }}</p>
+    <p><strong>Attempts:</strong> {{ alert.failed_attempts }}</p>
+    <p><strong>Severity:</strong> {{ alert.severity }}</p>
+
+    <p><strong>MITRE ATT&CK</strong></p>
+    <ul>
+        <li>Tactic: {{ alert.mitre.tactic }}</li>
+        <li>Technique: {{ alert.mitre.technique }} ({{ alert.mitre.technique_id }})</li>
+        <li>Sub-technique: {{ alert.mitre.subtechnique }}</li>
+    </ul>
+</div>
+{% endfor %}
+
+<hr>
+
+<h2>Incident Report</h2>
+
+<p><strong>Incident ID:</strong> {{ report.incident_id }}</p>
+<p><strong>Generated:</strong> {{ report.generated_at }}</p>
+<p><strong>Severity:</strong> {{ report.severity }}</p>
+
+<h3>Executive Summary</h3>
+<p>{{ report.executive_summary }}</p>
+
+<h3>Indicators of Compromise (IOC)</h3>
+<ul>
+{% for ioc in report.ioc_table %}
+    <li>IP: {{ ioc.ip }} | User: {{ ioc.user }} | Attempts: {{ ioc.failed_attempts }}</li>
+{% endfor %}
+</ul>
+
+<h3>MITRE ATT&CK Mapping</h3>
+<ul>
+    <li>Tactic: {{ report.mitre_attack.tactic }}</li>
+    <li>Technique: {{ report.mitre_attack.technique }} ({{ report.mitre_attack.technique_id }})</li>
+</ul>
+
+<h3>Mitigation Strategy</h3>
+<ul>
+{% for step in report.mitigation_strategy %}
+    <li>{{ step }}</li>
+{% endfor %}
+</ul>
+
+<a href="/">Analyze another log</a>
+
 </body>
 </html>
+
+
+

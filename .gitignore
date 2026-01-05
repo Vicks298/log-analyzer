@@ -1,4 +1,11 @@
+# Python
 __pycache__/
 *.pyc
+
+# Flask uploads & reports
+uploads/
+reports/
+
+# Environment
 .env
-reports/*.json
+venv/
